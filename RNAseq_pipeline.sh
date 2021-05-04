@@ -3,7 +3,7 @@
 # rnaseq_human -s3_in rstr-raw-fastq -s3_subdir Uganda-HIVneg-orig \   #Get fastq from AWS S3
 #              -out ~/project/rstr.orig -name rstr.HIVneg.orig \       #Set output directory and filename
 #              -ref_download false -s3_ref kadm-ref -release 102 \     #Get reference genome
-#              -threads 90 \ 
+#              -threads 90 \
 #              -s3_out kadm-rstr-hiv-neg/discovery                     #Set output directory fo AWS S3
 # 
 # s3_in="rstr-raw-fastq"
@@ -21,7 +21,6 @@ rnaseq_human () {
 
 ##### Set parameters #####
 #Defaults
-subdir_default="fastq"
 subdir_default="fastq"
 name_default="rnaseq"
 out_default=~/rnaseq
