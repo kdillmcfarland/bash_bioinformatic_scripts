@@ -79,6 +79,17 @@ echo "STAR"
 STAR --version
 featureCounts -v
 
+#Increase number of RAM files limit
+if [[ $(ulimit -n) = 1048 ]]; then
+
+  sudo printf "* soft nofile 100000\n* hard nofile 100000\nroot hard nofile 100000\nroot soft nofile 100000\n" >> /etc/security/limits.d/nofile.conf
+  sudo printf "fs.file-max = 100000" >> /etc/sysctl.conf
+  sudo printf "session required pam_limits.so" >> etc/pam.d/sshd
+  sudo printf "session required pam_limits.so" >> /etc/pam.d/login
+  sudo printf "UsePAM yes" >> /etc/ssh/sshd_config
+
+fi
+
 ##### Fuse data bucket #####
 s3fs $s3_in "$out"_data -o passwd_file=~/.passwd-s3fs \
     -o default_acl=public-read -o uid=1000 -o gid=1000 -o umask=0007
@@ -168,17 +179,6 @@ else
 #Fuse index files from S3
   s3fs $s3_ref "$out"_ref -o passwd_file=~/.passwd-s3fs \
       -o default_acl=public-read -o uid=1000 -o gid=1000 -o umask=0007
-
-fi
-
-#Increase number of RAM files limit
-if [[ $(ulimit -n) = 1048 ]]; then
-
-  sudo printf "* soft nofile 100000\n* hard nofile 100000\nroot hard nofile 100000\nroot soft nofile 100000\n" >> /etc/security/limits.d/nofile.conf
-  sudo printf "fs.file-max = 100000" >> /etc/sysctl.conf
-  sudo printf "session required pam_limits.so" >> etc/pam.d/sshd
-  sudo printf "session required pam_limits.so" >> /etc/pam.d/login
-  sudo printf "UsePAM yes" >> /etc/ssh/sshd_config
 
 fi
 
