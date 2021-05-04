@@ -96,7 +96,7 @@ s3fs $s3_in "$out"_data -o passwd_file=~/.passwd-s3fs \
 
 ##### Quality assessment 1 ##### 
 #Include all fastq in all subdirectories
-for filename in $(find "$out"_data/"$s3_subdir"/ -type f -name "*.fastq.gz" -print) ;
+for filename in $(find "$out"_data/"$s3_subdir"/ -type f -name "*fastq.gz" -print) ;
 do
 echo "Starting FastQC analysis of" $filename
 
@@ -121,13 +121,13 @@ echo "Input adapter length for 5' trimming"
 read -n 1 -p "Length (bp):" adapter_length
 
 #Run trimming
-paste <(find "$out"_data/"$s3_subdir"/ -type f -name "*R1*.fastq.gz" -print) \
-      <(find "$out"_data/"$s3_subdir"/ -type f -name "*R2*.fastq.gz" -print) |
+paste <(find "$out"_data/"$s3_subdir"/ -type f -name "*R1*fastq.gz" -print) \
+      <(find "$out"_data/"$s3_subdir"/ -type f -name "*R2*fastq.gz" -print) |
 
 while read file1 file2;
 do
   name=$(paste -d '\0' \
-            <(awk -F'[_]S' '{print $1}' <(basename $file1)))
+            <(awk -F'[_]R[1-2]' '{print $1}' <(basename $file1)))
   
   AdapterRemoval --file1 $file1 --file2 $file2 \
     --basename "$out"_results/fastq_trim/$name --gzip \
