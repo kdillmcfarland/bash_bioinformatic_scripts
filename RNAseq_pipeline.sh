@@ -17,6 +17,15 @@
 # s3_out="kadm-rstr-hiv-neg/discovery"
 # adapter_length=7
 
+######################
+# AREAS FOR IMPROVEMENT
+# Do default vs parameter inputs work?
+# Does pause for adapter length input work?
+# Picard does not run multi-thread depite the code saying it should
+# Do we want to add more filter customization inputs?
+# Long term: auto set adapter length from fastQC output?
+######################
+
 rnaseq_human () {
 
 ##### Set parameters #####
@@ -29,6 +38,7 @@ threads_default=1
 
 #From user input
 ## If input not given, use default
+###################### DON'T KNOW IF THIS WORKS ######################
 
 while getopts s3_in:s3_subdir:out:name:ref_download:s3_ref:release:threads:s3_out: flag
 do
@@ -117,7 +127,7 @@ aws s3 sync "$out"_results/ s3://$s3_out
 #Wait for user input of adapter length determined from FastQC results
 
 echo "Input adapter length for 5' trimming"
-
+###################### DON'T KNOW IF THIS WORKS ######################
 read -n 1 -p "Length (bp):" adapter_length
 
 #Run trimming
