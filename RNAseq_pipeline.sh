@@ -172,7 +172,7 @@ if [$ref_download = "true"]; then
   cp ./Log.out "$out"_ref/STARindex
 
 #Save to S3
-  aws s3 sync "$out"_ref/ s3://kadm-ref/release$release/
+  aws s3 sync "$out"_ref/ s3://"$s3_ref"/release$release/
   cd
 
 else
@@ -289,10 +289,13 @@ do
     >> "$out"_results/bam_metrics/bam.filter.summary.tsv
 done
 
+#Save to S3
+aws s3 sync "$out"_results/ s3://$s3_out
+
 ##### Count reads in genes ##### 
 #Function max is 64 threads
 if[$threads < 65]; then
-featureCounts -T $$threads -g gene_id -t exon -p \
+featureCounts -T $threads -g gene_id -t exon -p \
   -a "$out"_ref/release$release/STARref/Homo_sapiens.GRCh38.$release.gtf \
   -o "$out"_results/counts/"$name".featurecounts.paired.tsv \
   "$out"_results/bam_filter/*_filter.bam
