@@ -234,7 +234,7 @@ fi
 for bam_file in "$out"_results/bam/*sortedByCoord.out.bam ;
 do
     java -XX:ParallelGCThreads=$threads \
-        -jar ~/project/apps/anaconda3/share/picard*/picard.jar \
+        -jar ~/apps/anaconda3/share/picard*/picard.jar \
         CollectRnaSeqMetrics \
         REF_FLAT="$out"_ref/PICARDref/refFlat.ensembl.txt \
         I=$bam_file  \
