@@ -5,6 +5,13 @@
 sudo yum update -y
 sudo yum upgrade -y
 
+#link volume
+sudo mkfs -t ext4 /dev/nvme2n1
+sudo mkdir ~/apps
+sudo mount /dev/nvme2n1 ~/apps/
+
+sudo chmod 777 -R ~/apps/
+
 #### AWS CLI ####
 
 sudo printf "[default]\naws_access_key_id = ##########\naws_secret_access_key = ############" \
