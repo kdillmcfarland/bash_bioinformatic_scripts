@@ -15,7 +15,7 @@ sudo printf "[default]\noutput = txt\nregion = us-west-2" \
 
 #### Fuse ####
 
-# udo amazon-linux-extras install -y epel
+# sudo amazon-linux-extras install -y epel
 # sudo yum install -y s3fs-fuse
 # 
 # ### Setup key
