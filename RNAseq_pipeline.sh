@@ -1,3 +1,4 @@
+##### UNDER DEVELOPMENT May 2021 #####
 #!/bin/bash
 #EXAMPLE
 # rnaseq_human -s3_in rstr-raw-fastq -s3_subdir Uganda-HIVneg-orig \   #Get fastq from AWS S3
