@@ -26,8 +26,8 @@ sudo printf "[default]\noutput = txt\nregion = us-west-2" \
 
 sudo mkdir ~/apps
 cd ~/apps
-sudo curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
-sudo bash Anaconda3-2019.03-Linux-x86_64.sh
+sudo curl -O https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+sudo bash Anaconda3-2020.11-Linux-x86_64.sh
 ### Save to /home/ec2-user/apps/anaconda3
 sudo chmod 777 -R ~/apps/anaconda3
 eval "$(/home/ec2-user/apps/anaconda3/bin/conda shell.bash hook)"
@@ -41,10 +41,10 @@ conda config --set channel_priority false
 conda config --set allow_conda_downgrades true
 
 #### python3 ####
-conda install -c anaconda python=3.7 -y
-
-alias python='/usr/bin/python3.7'
-. ~/.bashrc
+# conda install -c anaconda python=3.7 -y
+# 
+# alias python='/usr/bin/python3.7'
+# . ~/.bashrc
 
 #### RNA-seq tools ####
 conda install -c conda-forge fastqc samtools -y
