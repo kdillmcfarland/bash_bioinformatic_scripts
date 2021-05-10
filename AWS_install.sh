@@ -63,9 +63,10 @@ conda install -c bioconda/label/cf201901 picard star subread -y
 conda install -c biobakery humann -y
 #Downgrade to get bowtie to work
 conda install tbb=2020.2 -y
-#Upgrade for humann3
-conda config --set allow_conda_downgrades false
-conda install diamond=0.9.36 -y
+#Check that diamond is at least 0.9.36
+#If not upgrade
+# conda config --set allow_conda_downgrades false
+# conda install diamond=2.0.8 -y
 
 #### R ####
 cd ~/apps/  
