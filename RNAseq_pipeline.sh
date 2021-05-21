@@ -18,15 +18,6 @@
 # s3_out="kadm-rstr-hiv-neg/discovery"
 # adapter_length=7
 
-######################
-# AREAS FOR IMPROVEMENT
-# Do default vs parameter inputs work?
-# Does pause for adapter length input work?
-# Picard does not run multi-thread depite the code saying it should
-# Do we want to add more filter customization inputs?
-# Long term: auto set adapter length from fastQC output?
-######################
-
 rnaseq_human () {
 
 ##### Set parameters #####
@@ -39,7 +30,7 @@ threads_default=1
 
 #From user input
 ## If input not given, use default
-###################### DON'T KNOW IF THIS WORKS ######################
+###################### DON'T KNOW IF THIS WORKS ON AWS ######################
 
 while getopts s3_in:s3_subdir:out:name:ref_download:s3_ref:release:threads:s3_out: flag
 do
@@ -90,7 +81,7 @@ echo "STAR"
 STAR --version
 featureCounts -v
 
-#Increase number of RAM files limit
+#Increase number of RAM files limit on AWS
 if [[ $(ulimit -n) = 1048 ]]; then
 
   sudo printf "* soft nofile 100000\n* hard nofile 100000\nroot hard nofile 100000\nroot soft nofile 100000\n" >> /etc/security/limits.d/nofile.conf
@@ -106,6 +97,7 @@ s3fs $s3_in "$out"_data -o passwd_file=~/.passwd-s3fs \
     -o default_acl=public-read -o uid=1000 -o gid=1000 -o umask=0007
 
 ##### Quality assessment 1 ##### 
+## Assess raw read quality using FastQC.
 #Include all fastq in all subdirectories
 for filename in $(find "$out"_data/"$s3_subdir"/ -type f -name "*fastq.gz" -print) ;
 do
@@ -122,7 +114,7 @@ aws s3 sync "$out"_results/ s3://$s3_out
 ##### Adapter removal ##### 
 ## Remove adapters 
 ## Remove reads with > 1 ambiguous base
-## Trim ends until reach base witrstr_datah quality 30+
+## Trim ends until reach base with quality 30+
 ## Remove reads < 15 bp
 
 #Wait for user input of adapter length determined from FastQC results
@@ -180,6 +172,7 @@ if [$ref_download = "true"]; then
      --sjdbOverhang 99 \
      --runThreadN $threads
 
+  #Move STAR log to output directory with genome index so it is saved
   cp ./Log.out "$out"_ref/STARindex
 
 #Save to S3
